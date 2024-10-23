@@ -23,6 +23,28 @@
       text-align: center;
       padding-top: 20px;
     }
+
+    p {
+      text-align: center;
+      font-size: 18 px;
+    }
+
+    /* Google-Suche zentrieren und stylen */
+
+    from {
+    text-align: center;
+    margin-top: 30px;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 10pc;
+      font-size: 16px;
+    }
+
+    input[type="submit"]:hover{
+      background-color: #357ae8;
+    }
     
   </style>
 </head>
@@ -30,6 +52,13 @@
 
 <h1>Welcome to my Website</h1>
 <p>How's it going?</p>
+
+<!-- Google-Suche hinzufügen -->
+<from action="https://google.com/search" method="get">
+  <input type="text" name="q" placeholder="Suchbegriff eingeben...">
+  <input type="submit" value="Suchen">
+</from>
+  
 
 </body>
 </html>
