@@ -16,6 +16,10 @@
       background-attachment: fixed;
       color: white;
       font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     h1 {
@@ -32,7 +36,7 @@
     /* Stil für die Google-Suche */
     form {
       text-align: center;
-      margin-top: 30px;
+      margin-top: 20px;
       display: inline-block;
       position: relative;
     }
@@ -63,6 +67,23 @@
       width: 20px; /* Größe des Pfeilsymbols */
     }
 
+    /* Social Media Icons */
+    .social-icons {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .social-icons a {
+      margin: 0 15px;
+    }
+
+    .social-icons img {
+      width: 30px;
+      height: 30px;
+    }
+
   </style>
 </head>
 <body>
@@ -70,13 +91,32 @@
   <h1>Welcome to my Website</h1>
   <p>How's it going?</p>
 
-  <!-- Google-Suche mit Pfeil -->
+  <!-- Google-Suche in der Mitte des Bildschirms -->
   <form action="https://www.google.com/search" method="get">
     <input type="text" name="q" placeholder="Suchbegriff eingeben...">
     <button type="submit">
       <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" alt="Suchen">
     </button>
   </form>
+
+  <!-- Social Media Icons am unteren Rand -->
+  <div class="social-icons">
+    <a href="https://www.facebook.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+    </a>
+    <a href="https://www.instagram.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+    </a>
+    <a href="https://www.linkedin.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+    </a>
+    <a href="https://www.reddit.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit">
+    </a>
+    <a href="https://www.youtube.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+    </a>
+  </div>
 
 </body>
 </html>
