@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +12,12 @@
       background-image: url('https://images.pexels.com/photos/1366957/pexels-photo-1366957.jpeg?cs=srgb&dl=pexels-iriser-1366957.jpg&fm=jpg');
       background-size: cover;
       background-position: center;
-      background-repead: no-repeat;
+      background-repeat: no-repeat;
       background-attachment: fixed;
       color: white;
-      front-family: Arial, sans-serif;
+      font-family: Arial, sans-serif;
     }
-    
+
     h1 {
       color: red;
       text-align: center;
@@ -26,59 +26,57 @@
 
     p {
       text-align: center;
-      font-size: 18 px;
+      font-size: 18px;
     }
 
-    /* Google-Suche zentrieren und stylen */
-
-    from {
-    text-align: center;
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* Stil für die Google-Suche */
+    form {
+      text-align: center;
+      margin-top: 30px;
+      display: inline-block;
+      position: relative;
     }
 
     input[type="text"] {
-      width: 300px;
+      width: 200px;
       padding: 8px;
       font-size: 14px;
       border: 2px solid white;
       border-radius: 20px;
       outline: none;
       color: black;
+      padding-right: 40px; /* Platz für den Button im Textfeld */
     }
 
+    /* Pfeil als Button */
     button {
       background-color: transparent;
       border: none;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
       cursor: pointer;
-      margin-left: -35px;
     }
 
     button img {
-      width: 24px;
+      width: 20px; /* Größe des Pfeilsymbols */
     }
 
-    input[type="submit"]:hover{
-      background-color: #357ae8;
-    }
-    
   </style>
 </head>
 <body>
 
-<h1>Welcome to my Website</h1>
-<p>How's it going?</p>
+  <h1>Welcome to my Website</h1>
+  <p>How's it going?</p>
 
-<!-- Google-Suche hinzufügen -->
-<from action="https://google.com/search" method="get">
-  <input type="text" name="q" placeholder="Suchbegriff eingeben...">
-  <button type="submit">
-    <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" alt="Suchen">
-  </button>
-</from>
-  
+  <!-- Google-Suche mit Pfeil -->
+  <form action="https://www.google.com/search" method="get">
+    <input type="text" name="q" placeholder="Suchbegriff eingeben...">
+    <button type="submit">
+      <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" alt="Suchen">
+    </button>
+  </form>
 
 </body>
 </html>
