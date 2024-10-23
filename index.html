@@ -84,50 +84,6 @@
       height: 30px;
     }
 
-    /* Taschenrechner-Styling */
-    .calculator {
-      width: 320px;
-      margin-top: 30px;
-      background-color: #333;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .calculator .display {
-      background-color: #000;
-      color: white;
-      text-align: right;
-      font-size: 30px;
-      padding: 20px;
-      border-radius: 5px;
-      margin-bottom: 20px;
-    }
-
-    .calculator button {
-      width: 60px;
-      height: 60px;
-      font-size: 20px;
-      margin: 5px;
-      border: none;
-      border-radius: 5px;
-      background-color: #555;
-      color: white;
-      cursor: pointer;
-    }
-
-    .calculator button.operator {
-      background-color: #f90;
-    }
-
-    .calculator button.equal {
-      background-color: #0f0;
-    }
-
-    .calculator button.clear {
-      background-color: red;
-    }
-
   </style>
 </head>
 <body>
@@ -142,35 +98,6 @@
       <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" alt="Suchen">
     </button>
   </form>
-
-  <!-- Taschenrechner -->
-  <div class="calculator">
-    <div class="display" id="display">0</div>
-    <div>
-      <button class="clear" onclick="clearDisplay()">C</button>
-      <button class="operator" onclick="inputOperator('/')">÷</button>
-      <button class="operator" onclick="inputOperator('*')">×</button>
-      <button class="operator" onclick="inputOperator('-')">−</button>
-    </div>
-    <div>
-      <button onclick="inputDigit(7)">7</button>
-      <button onclick="inputDigit(8)">8</button>
-      <button onclick="inputDigit(9)">9</button>
-      <button class="operator" onclick="inputOperator('+')">+</button>
-    </div>
-    <div>
-      <button onclick="inputDigit(4)">4</button>
-      <button onclick="inputDigit(5)">5</button>
-      <button onclick="inputDigit(6)">6</button>
-      <button class="equal" onclick="calculate()">=</button>
-    </div>
-    <div>
-      <button onclick="inputDigit(1)">1</button>
-      <button onclick="inputDigit(2)">2</button>
-      <button onclick="inputDigit(3)">3</button>
-      <button onclick="inputDigit(0)">0</button>
-    </div>
-  </div>
 
   <!-- Social Media Icons am unteren Rand -->
   <div class="social-icons">
@@ -190,80 +117,6 @@
       <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
     </a>
   </div>
-
-  <script>
-    let displayValue = '0';
-    let operator = null;
-    let firstOperand = null;
-    let waitingForSecondOperand = false;
-
-    function inputDigit(digit) {
-      if (waitingForSecondOperand === true) {
-        displayValue = digit;
-        waitingForSecondOperand = false;
-      } else {
-        displayValue = displayValue === '0' ? digit : displayValue + digit;
-      }
-      updateDisplay();
-    }
-
-    function inputOperator(nextOperator) {
-      const inputValue = parseFloat(displayValue);
-
-      if (operator && waitingForSecondOperand) {
-        operator = nextOperator;
-        return;
-      }
-
-      if (firstOperand === null && !isNaN(inputValue)) {
-        firstOperand = inputValue;
-      } else if (operator) {
-        const result = calculateResult(firstOperand, inputValue, operator);
-        displayValue = String(result);
-        firstOperand = result;
-      }
-
-      waitingForSecondOperand = true;
-      operator = nextOperator;
-      updateDisplay();
-    }
-
-    function calculateResult(first, second, operator) {
-      if (operator === '+') return first + second;
-      if (operator === '-') return first - second;
-      if (operator === '*') return first * second;
-      if (operator === '/') return first / second;
-      return second;
-    }
-
-    function calculate() {
-      const inputValue = parseFloat(displayValue);
-
-      if (operator && firstOperand !== null) {
-        const result = calculateResult(firstOperand, inputValue, operator);
-        displayValue = String(result);
-        operator = null;
-        waitingForSecondOperand = false;
-        firstOperand = null;
-      }
-      updateDisplay();
-    }
-
-    function clearDisplay() {
-      displayValue = '0';
-      operator = null;
-      firstOperand = null;
-      waitingForSecondOperand = false;
-      updateDisplay();
-    }
-
-    function updateDisplay() {
-      const display = document.querySelector('#display');
-      display.textContent = displayValue;
-    }
-
-    updateDisplay();
-  </script>
 
 </body>
 </html>
