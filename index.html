@@ -37,20 +37,24 @@
     .tabs {
       display: flex;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
     }
 
     .tab {
-      margin: 0 10px;
-      padding: 10px 20px;
+      margin: 0 15px;
+      padding: 10px 30px;
       cursor: pointer;
-      border: 2px solid white;
+      border: 2px solid transparent;
       border-radius: 20px;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, border 0.3s;
     }
 
     .tab:hover {
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.4);
+      border: 2px solid white;
     }
 
     /* Stil für die Google-Suche */
@@ -108,7 +112,9 @@
 </head>
 <body>
 
-  <!-- Tabs oben auf der Seite -->
+  <h1>Welcome to my Website</h1>
+
+  <!-- Tabs unter der Überschrift -->
   <div class="tabs">
     <div class="tab">Home</div>
     <div class="tab">Über mich</div>
@@ -116,7 +122,6 @@
     <div class="tab">Kontakt</div>
   </div>
 
-  <h1>Welcome to my Website</h1>
   <p>How's it going?</p>
 
   <!-- Google-Suche in der Mitte des Bildschirms -->
