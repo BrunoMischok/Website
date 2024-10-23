@@ -33,6 +33,26 @@
       font-size: 18px;
     }
 
+    /* Stil für die Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .tab {
+      margin: 0 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 2px solid white;
+      border-radius: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .tab:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
     /* Stil für die Google-Suche */
     form {
       text-align: center;
@@ -87,6 +107,14 @@
   </style>
 </head>
 <body>
+
+  <!-- Tabs oben auf der Seite -->
+  <div class="tabs">
+    <div class="tab">Home</div>
+    <div class="tab">Über mich</div>
+    <div class="tab">Projekte</div>
+    <div class="tab">Kontakt</div>
+  </div>
 
   <h1>Welcome to my Website</h1>
   <p>How's it going?</p>
