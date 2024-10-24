@@ -18,9 +18,11 @@
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start; /* oben beginnen */
       align-items: center;
       z-index: 10;
+      overflow: auto; /* scrollbar aktivieren */
+      padding-bottom: 60px; /* Platz für die Fußzeile schaffen */
     }
 
     .footer {
@@ -52,6 +54,11 @@
       font-size: 18px;
       margin-left: 50px;
       margin-right: 50px;
+    }
+
+    /* Abstand zwischen der Suchleiste und dem ersten Bild */
+    .search-margin {
+      margin-bottom: 30px; /* Abstand hinzufügen */
     }
 
     /* Stil für die Tabs */
@@ -115,7 +122,7 @@
     /* Social Media Icons */
     .social-icons {
       position: fixed;
-      bottom: 10px;
+      bottom: 70px; /* Abstand zur Fußzeile */
       width: 100%;
       text-align: center;
       z-index: 30;
@@ -162,7 +169,7 @@
   <p>How's it going?</p>
 
   <!-- Google-Suche in der Mitte des Bildschirms -->
-  <form action="https://www.google.com/search" method="get">
+  <form action="https://www.google.com/search" method="get" class="search-margin">
     <input type="text" name="q" placeholder="Suchbegriff eingeben...">
     <button type="submit">
       <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" alt="Suchen">
@@ -197,6 +204,7 @@
 
   <div class="footer">
     <div class="clock" id="clock">00:00:00</div> <!-- Platz für die Uhrzeit -->
+    <div id="date"></div> <!-- Platz für das aktuelle Datum -->
   </div>
 
   <script>
@@ -210,8 +218,16 @@
       document.getElementById('clock').textContent = timeString; // Uhrzeit im HTML-Element anzeigen
     }
 
+    function updateDate() {
+      const now = new Date(); // Aktuelles Datum abrufen
+      const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Formatierungsoptionen
+      const dateString = now.toLocaleDateString('de-DE', options); // Datum formatieren
+      document.getElementById('date').textContent = dateString; // Datum im HTML-Element anzeigen
+    }
+
     setInterval(updateClock, 1000); // Uhrzeit jede Sekunde aktualisieren
     updateClock(); // Uhrzeit beim Laden der Seite anzeigen
+    updateDate(); // Datum beim Laden der Seite anzeigen
   </script>
 
 </body>
