@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brunos Website</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-image: url('https://images.pexels.com/photos/1366957/pexels-photo-1366957.jpeg?cs=srgb&dl=pexels-iriser-1366957.jpg&fm=jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* oben beginnen */
+      align-items: center;
+      z-index: 10;
+      overflow: auto; /* scrollbar aktivieren */
+      padding-bottom: 60px; /* Platz für die Fußzeile schaffen */
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: black;
+      color: white;
+      text-align: center;
+      line-height: 0px;
+      font-size: 16px;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between; /* Elemente gleichmäßig verteilen */
+      align-items: center; /* Vertikale Ausrichtung */
+      padding: 0px; /* Innenabstand */
+    }
+
+    h1 {
+      color: red;
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    p {
+      text-align: center;
+      font-size: 18px;
+      margin-left: 50px;
+      margin-right: 50px;
+    }
+
+    /* Abstand zwischen der Suchleiste und dem ersten Bild */
+    .search-margin {
+      margin-bottom: 30px; /* Abstand hinzufügen */
+    }
+
+    /* Stil für die Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+    }
+
+    .tab {
+      margin: 0 15px;
+      padding: 10px 30px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 20px;
+      transition: background-color 0.3s, border 0.3s;
+    }
+
+    .tab:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+      border: 2px solid white;
+    }
+
+    /* Stil für die Google-Suche */
+    form {
+      text-align: center;
+      margin-top: 20px;
+      display: inline-block;
+      position: relative;
+    }
+
+    input[type="text"] {
+      width: 200px;
+      padding: 8px;
+      font-size: 14px;
+      border: 2px solid white;
+      border-radius: 20px;
+      outline: none;
+      color: black;
+      padding-right: 40px; /* Platz für den Button im Textfeld */
+    }
+
+    /* Pfeil als Button */
+    button {
+      background-color: transparent;
+      border: none;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    button img {
+      width: 20px; /* Größe des Pfeilsymbols */
+    }
+
+    /* Social Media Icons */
+    .social-icons {
+      position: fixed;
+      bottom: 10px; /* Abstand zur Fußzeile */
+      width: 100%;
+      text-align: center;
+      z-index: 30;
+    }
+
+    .social-icons a {
+      margin: 0 15px;
+      z-index: 30;
+
+    }
+
+    .social-icons img {
+      width: 30px;
+      height: 30px;
+      z-index: 30;
+    }
+
+    .Linux-Bild img {
+      padding-top: 50px;
+      z-index: 30;
+    }
+    
+    .clock {
+      font-size: 24px;
+      background-color: black; /* Hintergrund für die Uhrzeit */
+      color: white; /* Textfarbe */
+      padding: 10px;
+      border-radius: 5px; /* Abgerundete Ecken */
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+    
+    .date {
+      font-size: 24px;
+      background-color: black; /* Hintergrund für die Uhrzeit */
+      color: white; /* Textfarbe */
+      padding: 10px;
+      border-radius: 5px; /* Abgerundete Ecken */
+      padding-left: 0px;
+      padding-right: 0px;
+     }
+     
+     
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to my Website</h1>
+
+  <!-- Tabs unter der Überschrift -->
+<div class="tabs">
+    <a class="tab" href="index.html">Home</a>
+    <a class="tab" href="ueber-mich.html">Über mich</a>
+    <a class="tab" href="projekte.html">Projekte</a>
+    <a class="tab" href="kontakt.html">Kontakt</a>
+</div>
+
+
+  <img src="https://seekvectors.com/files/download/81372e0e0118d1d99ff586aba97796ca.jpg" alt="Linux-Bild" width="300" height="200">
+
+  <!-- Social Media Icons am unteren Rand -->
+  <div class="social-icons">
+    <a href="https://www.facebook.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+    </a>
+    <a href="https://www.instagram.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+    </a>
+    <a href="https://www.linkedin.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn">
+    </a>
+    <a href="https://www.reddit.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit">
+    </a>
+    <a href="https://www.youtube.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+    </a>
+  </div>
+
+  <div class="footer">
+    <div class="clock" id="clock">00:00:00</div> <!-- Platz für die Uhrzeit -->
+    <div id="date"></div> <!-- Platz für das aktuelle Datum -->
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date(); // Aktuelle Uhrzeit abrufen
+      const hours = String(now.getHours()).padStart(2, '0'); // Stunden
+      const minutes = String(now.getMinutes()).padStart(2, '0'); // Minuten
+      const seconds = String(now.getSeconds()).padStart(2, '0'); // Sekunden
+
+      const timeString = `${hours}:${minutes}:${seconds}`; // Uhrzeit formatieren
+      document.getElementById('clock').textContent = timeString; // Uhrzeit im HTML-Element anzeigen
+    }
+
+    function updateDate() {
+      const now = new Date(); // Aktuelles Datum abrufen
+      const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Formatierungsoptionen
+      const dateString = now.toLocaleDateString('de-DE', options); // Datum formatieren
+      document.getElementById('date').textContent = dateString; // Datum im HTML-Element anzeigen
+    }
+
+    setInterval(updateClock, 1000); // Uhrzeit jede Sekunde aktualisieren
+    updateClock(); // Uhrzeit beim Laden der Seite anzeigen
+    updateDate(); // Datum beim Laden der Seite anzeigen
+  </script>
+
+</body>
+</html>
