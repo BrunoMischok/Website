@@ -164,6 +164,25 @@
       padding-left: 0px;
       padding-right: 0px;
      }
+
+      .pdf-preview {
+      width: 80%; /* Breite des PDF-Frames */
+      height: 300px; /* Höhe des PDF-Frames */
+      margin-top: 20px; /* Abstand nach oben */
+      border: 1px solid white; /* Rahmen hinzufügen */
+    }
+
+    .download-button {
+      margin-top: 10px; /* Abstand zum PDF-Frame */
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.5);
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
      
      
   </style>
@@ -185,6 +204,13 @@
       Es gibt zahlreiche links und Tipps. Es werden bereits abgeschlossene Projekte thematisiert und ein Kontaktformular gibt es auch.</p>
 
   <img src="https://seekvectors.com/files/download/81372e0e0118d1d99ff586aba97796ca.jpg" alt="Linux-Bild" width="300" height="200">
+
+  
+  <!-- PDF Vorschau -->
+  <iframe class="pdf-preview" src="deine-pdf-datei.pdf" frameborder="0"></iframe>
+  <a href="deine-pdf-datei.pdf" download>
+    <button class="download-button">PDF Herunterladen</button>
+  </a>
 
   <!-- Social Media Icons am unteren Rand -->
   <div class="social-icons">
