@@ -28,19 +28,23 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 70px;
+      height: 60px;
       background-color: black;
       color: white;
       text-align: center;
       line-height: 0px;
       font-size: 16px;
       z-index: 20;
+      display: flex;
+      justify-content: space-between; /* Elemente gleichmäßig verteilen */
+      align-items: center; /* Vertikale Ausrichtung */
+      padding: 0 20px; /* Innenabstand */
     }
 
     h1 {
       color: red;
       text-align: center;
-      margin-top: 20px;
+      padding-top: 20px;
     }
 
     p {
@@ -110,7 +114,7 @@
 
     /* Social Media Icons */
     .social-icons {
-      position: absolute;
+      position: fixed;
       bottom: 10px;
       width: 100%;
       text-align: center;
@@ -133,7 +137,14 @@
       padding-top: 50px;
       z-index: 30;
     }
-
+    
+    .clock {
+      font-size: 24px;
+      background-color: black; /* Hintergrund für die Uhrzeit */
+      color: white; /* Textfarbe */
+      padding: 10px;
+      border-radius: 5px; /* Abgerundete Ecken */
+    }
   </style>
 </head>
 <body>
@@ -158,12 +169,12 @@
     </button>
   </form>
 
-<img src="https://blog.botcity.dev/wp-content/uploads/2023/12/capa-artigo-ferramentas-python-1.jpg" alt="Coding-Bild" width="500" height="500">
+  <img src="https://blog.botcity.dev/wp-content/uploads/2023/12/capa-artigo-ferramentas-python-1.jpg" alt="Coding-Bild" width="500" height="500">
 
   <p> Auf dieser Seite finden sie nützliche Informationen über die Vorgehensweise einer Umschulung im Bereich IT und über meinen persönlichen Erfolge als IT'ler.
       Es gibt zahlreiche links und Tipps. Es werden bereits abgeschlossene Projekte thematisiert und ein Kontaktformular gibt es auch.</p>
 
-<img src="https://seekvectors.com/files/download/81372e0e0118d1d99ff586aba97796ca.jpg" alt="Linux-Bild" width="300" heigth="200">
+  <img src="https://seekvectors.com/files/download/81372e0e0118d1d99ff586aba97796ca.jpg" alt="Linux-Bild" width="300" height="200">
 
   <!-- Social Media Icons am unteren Rand -->
   <div class="social-icons">
@@ -184,9 +195,24 @@
     </a>
   </div>
 
-<div class="footer">
-</div>
-  
+  <div class="footer">
+    <div class="clock" id="clock">00:00:00</div> <!-- Platz für die Uhrzeit -->
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date(); // Aktuelle Uhrzeit abrufen
+      const hours = String(now.getHours()).padStart(2, '0'); // Stunden
+      const minutes = String(now.getMinutes()).padStart(2, '0'); // Minuten
+      const seconds = String(now.getSeconds()).padStart(2, '0'); // Sekunden
+
+      const timeString = `${hours}:${minutes}:${seconds}`; // Uhrzeit formatieren
+      document.getElementById('clock').textContent = timeString; // Uhrzeit im HTML-Element anzeigen
+    }
+
+    setInterval(updateClock, 1000); // Uhrzeit jede Sekunde aktualisieren
+    updateClock(); // Uhrzeit beim Laden der Seite anzeigen
+  </script>
 
 </body>
 </html>
