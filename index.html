@@ -43,6 +43,24 @@
       padding: 0 20px; /* Innenabstand */
     }
 
+    .social-icons {
+      position: absolute; /* Icons fixieren */
+      bottom: 70px; /* Abstand zur Fußzeile */
+      left: 0; /* Links ausrichten */
+      width: 100%; /* Volle Breite */
+      text-align: center; /* Zentrieren */
+      z-index: 30;
+    }
+
+    .social-icons a {
+      margin: 0 15px;
+    }
+
+    .social-icons img {
+      width: 30px;
+      height: 30px;
+    }
+
     h1 {
       color: red;
       text-align: center;
@@ -56,12 +74,10 @@
       margin-right: 50px;
     }
 
-    /* Abstand zwischen der Suchleiste und dem ersten Bild */
     .search-margin {
       margin-bottom: 30px; /* Abstand hinzufügen */
     }
 
-    /* Stil für die Tabs */
     .tabs {
       display: flex;
       justify-content: center;
@@ -85,7 +101,6 @@
       border: 2px solid white;
     }
 
-    /* Stil für die Google-Suche */
     form {
       text-align: center;
       margin-top: 20px;
@@ -104,7 +119,6 @@
       padding-right: 40px; /* Platz für den Button im Textfeld */
     }
 
-    /* Pfeil als Button */
     button {
       background-color: transparent;
       border: none;
@@ -119,26 +133,10 @@
       width: 20px; /* Größe des Pfeilsymbols */
     }
 
-    /* Social Media Icons */
-    .social-icons {
-      display: flex; /* Flexbox für die Icons */
-      justify-content: center; /* Zentrierung */
-      margin-top: 5px; /* Abstand nach oben */
-    }
-
-    .social-icons a {
-      margin: 0 10px; /* Abstand zwischen Icons */
-    }
-
-    .social-icons img {
-      width: 30px;
-      height: 30px;
-    }
-
     .Linux-Bild img {
       padding-top: 50px;
     }
-
+    
     .clock {
       font-size: 24px;
       background-color: black; /* Hintergrund für die Uhrzeit */
@@ -152,7 +150,6 @@
 
   <h1>Welcome to my Website</h1>
 
-  <!-- Tabs unter der Überschrift -->
   <div class="tabs">
     <div class="tab">Home</div>
     <div class="tab">Über mich</div>
@@ -162,7 +159,6 @@
 
   <p>How's it going?</p>
 
-  <!-- Google-Suche in der Mitte des Bildschirms -->
   <form action="https://www.google.com/search" method="get" class="search-margin">
     <input type="text" name="q" placeholder="Suchbegriff eingeben...">
     <button type="submit">
@@ -177,7 +173,11 @@
 
   <img src="https://seekvectors.com/files/download/81372e0e0118d1d99ff586aba97796ca.jpg" alt="Linux-Bild" width="300" height="200">
 
-  <!-- Social Media Icons am unteren Rand -->
+  <div class="footer">
+    <div class="clock" id="clock">00:00:00</div> <!-- Platz für die Uhrzeit -->
+    <div id="date" style="margin-left: -50px;"></div> <!-- Platz für das aktuelle Datum, um 50px nach links verschoben -->
+  </div>
+
   <div class="social-icons">
     <a href="https://www.facebook.com" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
@@ -194,11 +194,6 @@
     <a href="https://www.youtube.com" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
     </a>
-  </div>
-
-  <div class="footer">
-    <div class="clock" id="clock">00:00:00</div> <!-- Platz für die Uhrzeit -->
-    <div id="date"></div> <!-- Platz für das aktuelle Datum -->
   </div>
 
   <script>
