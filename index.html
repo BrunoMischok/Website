@@ -18,11 +18,11 @@
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start; /* oben beginnen */
+      justify-content: flex-start;
       align-items: center;
       z-index: 10;
-      overflow: auto; /* scrollbar aktivieren */
-      padding-bottom: 60px; /* Platz für die Fußzeile schaffen */
+      overflow: auto;
+      padding-bottom: 60px;
     }
 
     .footer {
@@ -38,9 +38,9 @@
       font-size: 16px;
       z-index: 20;
       display: flex;
-      justify-content: space-between; /* Elemente gleichmäßig verteilen */
-      align-items: center; /* Vertikale Ausrichtung */
-      padding: 0px; /* Innenabstand */
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px;
     }
 
     h1 {
@@ -58,12 +58,10 @@
       margin-right: 50px;
     }
 
-    /* Abstand zwischen der Suchleiste und dem ersten Bild */
     .search-margin {
-      margin-bottom: 30px; /* Abstand hinzufügen */
+      margin-bottom: 30px;
     }
 
-    /* Stil für die Tabs */
     .tabs {
       font-family: "Ubuntu Mono", monospace;
       display: flex;
@@ -89,12 +87,8 @@
       border: 2px solid white;
     }
 
-    .tab:active {
-  color: white; /* Schriftfarbe nach dem Klicken */
-}
+    .tab:active { color: white; }
 
-
-    /* Stil für die Google-Suche */
     form {
       text-align: center;
       margin-top: 20px;
@@ -110,10 +104,9 @@
       border-radius: 20px;
       outline: none;
       color: black;
-      padding-right: 40px; /* Platz für den Button im Textfeld */
+      padding-right: 40px;
     }
 
-    /* Pfeil als Button */
     button {
       background-color: transparent;
       border: none;
@@ -124,76 +117,67 @@
       cursor: pointer;
     }
 
-    button img {
-      width: 20px; /* Größe des Pfeilsymbols */
-    }
+    button img { width: 20px; }
 
-    /* Social Media Icons */
     .social-icons {
       position: fixed;
-      bottom: 10px; /* Abstand zur Fußzeile */
+      bottom: 10px;
       width: 100%;
       text-align: center;
       z-index: 30;
     }
 
-    .social-icons a {
-      margin: 0 15px;
-      z-index: 30;
+    .social-icons a { margin: 0 15px; z-index: 30; }
+    .social-icons img { width: 30px; height: 30px; z-index: 30; }
 
-    }
+    .Linux-Bild img { padding-top: 50px; z-index: 30; }
 
-    .social-icons img {
-      width: 30px;
-      height: 30px;
-      z-index: 30;
-    }
-
-    .Linux-Bild img {
-      padding-top: 50px;
-      z-index: 30;
-    }
-    
     .clock {
       font-family: "Ubuntu Mono", monospace;
       font-size: 24px;
-      background-color: black; /* Hintergrund für die Uhrzeit */
-      color: white; /* Textfarbe */
+      background-color: black;
+      color: white;
       padding: 10px;
-      border-radius: 5px; /* Abgerundete Ecken */
+      border-radius: 5px;
       padding-left: 0px;
       padding-right: 0px;
     }
-    
+
     .date {
       font-family: "Ubuntu Mono", monospace;
       font-size: 24px;
-      background-color: black; /* Hintergrund für die Uhrzeit */
-      color: white; /* Textfarbe */
+      background-color: black;
+      color: white;
       padding: 10px;
-      border-radius: 5px; /* Abgerundete Ecken */
+      border-radius: 5px;
       padding-left: 0px;
       padding-right: 0px;
-     }
-     
-     
+    }
+
+    /* hübscher Info-Block */
+    #info {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 18px;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 15px;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
 
   <h1>Welcome to my Website</h1>
 
-  <!-- Tabs unter der Überschrift -->
-<div class="tabs">
+  <div class="tabs">
     <a class="tab" href="index.html">Home</a>
     <a class="tab" href="ueber-mich.html">Über mich</a>
     <a class="tab" href="projekte.html">Projekte</a>
     <a class="tab" href="kontakt.html">Kontakt</a>
-</div>
+  </div>
 
-  <p> Auf dieser Seite finden sie Informationen zu meiner Umschulung im Bereich Fachinformatiker für Systemintegration.</p>
+  <p>Auf dieser Seite finden sie Informationen zu meiner Umschulung im Bereich Fachinformatiker für Systemintegration.</p>
 
-  <!-- Google-Suche in der Mitte des Bildschirms -->
   <form action="https://www.google.com/search" method="get" class="search-margin">
     <input type="text" name="q" placeholder="Suchbegriff eingeben...">
     <button type="submit">
@@ -201,7 +185,8 @@
     </button>
   </form>
 
-    <div id="info"></div>
+  <div id="info"></div>
+
   <script>
     // --- Browser/OS ---
     function parseUA() {
@@ -211,36 +196,43 @@
         ua.includes("Edg/") ? "Edge" :
         ua.includes("Chrome") ? "Chrome" :
         ua.includes("Safari") ? "Safari" : "Unbekannt";
-      const version = (ua.match(/(Firefox|Edg|Chrome)\/([\d.]+)/)||[])[2] ||
-                      (ua.match(/Version\/([\d.]+).*Safari/)||[])[1] || "";
+      const version = (ua.match(/(Firefox|Edg|Chrome)\/([\\d.]+)/)||[])[2] ||
+                      (ua.match(/Version\\/([\\d.]+).*Safari/)||[])[1] || "";
       let os = "Unbekannt", osversion = "";
-      if (/Windows NT/.test(ua)) { os="Windows"; osversion=(ua.match(/Windows NT ([\d.]+)/)||[])[1]||""; }
-      else if (/Mac OS X/.test(ua)) { os="macOS"; osversion=(ua.match(/Mac OS X ([\d_]+)/)||[])[1]?.replaceAll("_",".")||""; }
-      else if (/Android/.test(ua)) { os="Android"; osversion=(ua.match(/Android ([\d.]+)/)||[])[1]||""; }
+      if (/Windows NT/.test(ua)) { os="Windows"; osversion=(ua.match(/Windows NT ([\\d.]+)/)||[])[1]||""; }
+      else if (/Mac OS X/.test(ua)) { os="macOS"; osversion=(ua.match(/Mac OS X ([\\d_]+)/)||[])[1]?.replaceAll("_",".")||""; }
+      else if (/Android/.test(ua)) { os="Android"; osversion=(ua.match(/Android ([\\d.]+)/)||[])[1]||""; }
       else if (/iPhone|iPad|iPod/.test(ua)) { os="iOS"; }
       return { browser, version, os, osversion };
     }
 
     const ui = parseUA();
     const infoEl = document.getElementById('info');
+
+    // Vorab Browser/OS anzeigen
     infoEl.innerHTML = `
       <p>Du verwendest: <strong>${ui.browser} ${ui.version}</strong> (${ui.os} ${ui.osversion})</p>
-      <p>Deine IP: <em>wird nur mit Einwilligung geladen</em></p>
+      <p>Deine IP wird geladen …</p>
     `;
 
-    const btn = document.createElement('button');
-    btn.textContent = 'Meine IP anzeigen';
-    btn.onclick = async () => {
+    // --- IP direkt laden (ohne Einwilligungs-Klick) ---
+    (async () => {
       try {
-        const r = await fetch('https://api.ipify.org?format=json');
+        const r = await fetch('https://api.ipify.org?format=json', { referrerPolicy: 'no-referrer' });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
         const { ip } = await r.json();
-        infoEl.insertAdjacentHTML('beforeend', `<p>Deine IP: <strong>${ip}</strong></p>`);
-      } catch(e){ alert('IP konnte nicht geladen werden.'); }
-    };
-    infoEl.appendChild(btn);
+        const ipEl = document.createElement('p');
+        ipEl.innerHTML = `Deine IP: <strong>${ip}</strong>`;
+        infoEl.appendChild(ipEl);
+      } catch (e) {
+        const errEl = document.createElement('p');
+        errEl.textContent = 'Deine IP konnte nicht geladen werden.';
+        infoEl.appendChild(errEl);
+        console.error(e);
+      }
+    })();
   </script>
 
-  <!-- Social Media Icons am unteren Rand -->
   <div class="social-icons">
     <a href="https://www.facebook.com" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
@@ -260,32 +252,32 @@
   </div>
 
   <div class="footer">
-    <div class="clock" id="clock">00:00:00</div> <!-- Platz für die Uhrzeit -->
-    <div id="date"></div> <!-- Platz für das aktuelle Datum -->
+    <div class="clock" id="clock">00:00:00</div>
+    <div id="date"></div>
   </div>
 
   <script>
     function updateClock() {
-      const now = new Date(); // Aktuelle Uhrzeit abrufen
-      const hours = String(now.getHours()).padStart(2, '0'); // Stunden
-      const minutes = String(now.getMinutes()).padStart(2, '0'); // Minuten
-      const seconds = String(now.getSeconds()).padStart(2, '0'); // Sekunden
-
-      const timeString = `${hours}:${minutes}:${seconds}`; // Uhrzeit formatieren
-      document.getElementById('clock').textContent = timeString; // Uhrzeit im HTML-Element anzeigen
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const timeString = `${hours}:${minutes}:${seconds}`;
+      document.getElementById('clock').textContent = timeString;
     }
 
     function updateDate() {
-      const now = new Date(); // Aktuelles Datum abrufen
-      const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Formatierungsoptionen
-      const dateString = now.toLocaleDateString('de-DE', options); // Datum formatieren
-      document.getElementById('date').textContent = dateString; // Datum im HTML-Element anzeigen
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const dateString = now.toLocaleDateString('de-DE', options);
+      document.getElementById('date').textContent = dateString;
     }
 
-    setInterval(updateClock, 1000); // Uhrzeit jede Sekunde aktualisieren
-    updateClock(); // Uhrzeit beim Laden der Seite anzeigen
-    updateDate(); // Datum beim Laden der Seite anzeigen
+    setInterval(updateClock, 1000);
+    updateClock();
+    updateDate();
   </script>
 
 </body>
 </html>
+
