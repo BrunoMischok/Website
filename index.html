@@ -1,245 +1,125 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brunos Website</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brunos Website — IP & Ort</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
+    /* (Dein bestehendes Styling — leicht verkürzt/angepasst für Fokus) */
+    body{
+      margin:0; padding:0; min-height:100vh;
       background-image: url('https://images.pexels.com/photos/1366957/pexels-photo-1366957.jpeg?cs=srgb&dl=pexels-iriser-1366957.jpg&fm=jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      color: white;
+      background-size:cover; background-position:center; color:white;
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      z-index: 10;
-      overflow: auto;
-      padding-bottom: 60px;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 30px 20px 80px 20px;
     }
-
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      background-color: black;
-      color: white;
-      text-align: center;
-      line-height: 0px;
-      font-size: 16px;
-      z-index: 20;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0px;
+    #info{
+      margin-top:30px; text-align:center; font-size:18px;
+      background: rgba(0,0,0,0.55); padding:14px; border-radius:10px;
+      max-width:720px; width:100%;
     }
-
-    h1 {
-      font-family: "Ubuntu Mono", monospace;
-      color: white;
-      text-align: center;
-      padding-top: 20px;
-    }
-
-    p {
-      font-family: "Ubuntu Mono", monospace;
-      text-align: center;
-      font-size: 18px;
-      margin-left: 50px;
-      margin-right: 50px;
-    }
-
-    .search-margin { margin-bottom: 30px; }
-
-    .tabs {
-      font-family: "Ubuntu Mono", monospace;
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-      padding: 10px;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-    }
-
-    .tab {
-      font-family: "Ubuntu Mono", monospace;
-      margin: 0 15px;
-      padding: 10px 30px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      border-radius: 20px;
-      transition: background-color 0.3s, border 0.3s;
-    }
-
-    .tab:hover { background-color: rgba(255, 255, 255, 0.4); border: 2px solid white; }
-    .tab:active { color: white; }
-
-    form {
-      text-align: center;
-      margin-top: 20px;
-      display: inline-block;
-      position: relative;
-    }
-
-    input[type="text"] {
-      width: 200px;
-      padding: 8px;
-      font-size: 14px;
-      border: 2px solid white;
-      border-radius: 20px;
-      outline: none;
-      color: black;
-      padding-right: 40px;
-    }
-
-    button {
-      background-color: transparent;
-      border: none;
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-    }
-    button img { width: 20px; }
-
-
-    .clock {
-      font-family: "Ubuntu Mono", monospace;
-      font-size: 24px;
-      background-color: black;
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      padding-left: 0px;
-      padding-right: 0px;
-    }
-    .date {
-      font-family: "Ubuntu Mono", monospace;
-      font-size: 24px;
-      background-color: black;
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      padding-left: 0px;
-      padding-right: 0px;
-    }
-
-    #info {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 18px;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      border-radius: 10px;
-    }
+    .label { opacity:0.85; font-size:14px; margin-top:6px; }
+    .value { font-weight:700; font-family: "Ubuntu Mono", monospace; font-size:18px; }
+    .small { font-size:13px; opacity:0.8; margin-top:6px; }
   </style>
 </head>
 <body>
 
-  <h1>Welcome to my Website</h1>
+  <h1 style="margin-top:10px; font-family:'Ubuntu Mono', monospace;">Welcome to my Website</h1>
 
-  <div class="tabs">
-    <a class="tab" href="index.html">Home</a>
-    <a class="tab" href="ueber-mich.html">Über mich</a>
-    <a class="tab" href="projekte.html">Projekte</a>
-    <a class="tab" href="kontakt.html">Kontakt</a>
+  <p style="max-width:800px; text-align:center; font-family:'Ubuntu Mono', monospace;">
+    Auf dieser Seite findest du Informationen zu meiner Umschulung. Hier zeigen wir zusätzlich die IP-Adresse
+    und den vermuteten Standort (Geo-IP).
+  </p>
+
+  <div id="info">
+    <div class="label">Browser / Betriebssystem</div>
+    <div id="ua" class="value">Wird ermittelt…</div>
+
+    <div class="label">IP-Adresse</div>
+    <div id="ip" class="value">Wird geladen…</div>
+
+    <div class="label">Vermuteter Ort</div>
+    <div id="location" class="value">Wird geladen…</div>
+
+    <div id="coords" class="small"></div>
+
+    <div id="note" class="small" style="margin-top:12px; opacity:0.9;">
+      Hinweis: IP &amp; Standort werden live von einem externen Geo-IP-Dienst abgefragt. Das sind personenbezogene Daten.
+      Wenn die Seite öffentlich ist, bitte Datenschutzerklärung beachten.
+    </div>
   </div>
 
-  <p>Auf dieser Seite finden sie Informationen zu meiner Umschulung im Bereich Fachinformatiker für Systemintegration.</p>
-
-  <form action="https://www.google.com/search" method="get" class="search-margin">
-    <input type="text" name="q" placeholder="Suchbegriff eingeben...">
-    <button type="submit">
-      <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" alt="Suchen">
-    </button>
-  </form>
-
-  <div id="info"></div>
-
   <script>
-    // --- Browser/OS ---
-    function parseUA() {
-      const ua = navigator.userAgent;
-      const browser =
-        ua.includes("Firefox") ? "Firefox" :
-        ua.includes("Edg/") ? "Edge" :
-        ua.includes("Chrome") ? "Chrome" :
-        ua.includes("Safari") ? "Safari" : "Unbekannt";
-
-      // WICHTIG: Regex als Literals, nicht doppelt escapen
+    // --- Funktion: Browser/OS aus userAgent (einfacher Parser) ---
+    function parseUA(){
+      const ua = navigator.userAgent || "";
+      const browser = ua.includes("Firefox") ? "Firefox" :
+                      ua.includes("Edg/") ? "Edge" :
+                      ua.includes("Chrome") && !ua.includes("Edg/") ? "Chrome" :
+                      ua.includes("Safari") && !ua.includes("Chrome") ? "Safari" :
+                      "Unbekannt";
       const version = (ua.match(/(Firefox|Edg|Chrome)\/([\d.]+)/) || [])[2] ||
                       (ua.match(/Version\/([\d.]+).*Safari/) || [])[1] || "";
-
       let os = "Unbekannt", osversion = "";
-      if (/Windows NT/.test(ua)) {
-        os = "Windows";
-        osversion = (ua.match(/Windows NT ([\d.]+)/) || [])[1] || "";
-      } else if (/Mac OS X/.test(ua)) {
-        os = "macOS";
-        const m = ua.match(/Mac OS X ([\d_]+)/);
-        osversion = m ? m[1].replaceAll("_", ".") : "";
-      } else if (/Android/.test(ua)) {
-        os = "Android";
-        osversion = (ua.match(/Android ([\d.]+)/) || [])[1] || "";
-      } else if (/iPhone|iPad|iPod/.test(ua)) {
-        os = "iOS";
-      }
+      if (/Windows NT/.test(ua)) { os="Windows"; osversion = (ua.match(/Windows NT ([\d.]+)/)||[])[1] || ""; }
+      else if (/Mac OS X/.test(ua)) { os="macOS"; osversion = (ua.match(/Mac OS X ([\d_]+)/)||[])[1]?.replaceAll("_",".") || ""; }
+      else if (/Android/.test(ua)) { os="Android"; osversion = (ua.match(/Android ([\d.]+)/)||[])[1] || ""; }
+      else if (/iPhone|iPad|iPod/.test(ua)) { os="iOS"; }
       return { browser, version, os, osversion };
     }
 
-    const ui = parseUA();
-    const infoEl = document.getElementById('info');
-    infoEl.innerHTML = `
-      <p>Du verwendest: <strong>${ui.browser} ${ui.version}</strong> (${ui.os} ${ui.osversion})</p>
-      <p>Deine IP wird geladen …</p>
-    `;
+    // UI-Elemente
+    const uaEl = document.getElementById('ua');
+    const ipEl = document.getElementById('ip');
+    const locationEl = document.getElementById('location');
+    const coordsEl = document.getElementById('coords');
 
-    // --- IP direkt laden ---
-    (async () => {
+    // Browser/OS sofort anzeigen
+    const ui = parseUA();
+    uaEl.textContent = `${ui.browser} ${ui.version} (${ui.os} ${ui.osversion})`;
+
+    // --- IP + Geo laden (automatisch beim Laden) ---
+    (async function loadIpAndGeo(){
       try {
-        const r = await fetch('https://api.ipify.org?format=json', { referrerPolicy: 'no-referrer' });
+        // 1) IP + Geo in einem Request: ipapi.co/json liefert beides
+        // Alternativen: ipinfo.io (token), ipgeolocation.io (token), ipapi.co (kostenlos für einfache Nutzung)
+        const r = await fetch('https://ipapi.co/json/');
         if (!r.ok) throw new Error('HTTP ' + r.status);
-        const { ip } = await r.json();
-        infoEl.insertAdjacentHTML('beforeend', `<p>Deine IP: <strong>${ip}</strong></p>`);
+        const data = await r.json();
+
+        // ipapi.co gibt Felder wie: ip, city, region, country_name, latitude, longitude, postal
+        const ip = data.ip || 'unbekannt';
+        const city = data.city || '';
+        const region = data.region || '';
+        const country = data.country_name || data.country || '';
+        const latitude = data.latitude ?? data.lat ?? '';
+        const longitude = data.longitude ?? data.lon ?? '';
+        const postal = data.postal || '';
+
+        ipEl.textContent = ip;
+        // Ort zusammensetzen — nur nichtleere Teile verwenden
+        const parts = [];
+        if (city) parts.push(city);
+        if (region && region !== city) parts.push(region);
+        if (postal && !parts.includes(postal)) parts.push(postal);
+        if (country) parts.push(country);
+        const locText = parts.length ? parts.join(', ') : 'Nicht verfügbar';
+        locationEl.textContent = locText;
+
+        if (latitude && longitude) {
+          coordsEl.textContent = `Koordinaten: ${latitude}, ${longitude}`;
+        } else {
+          coordsEl.textContent = '';
+        }
       } catch (e) {
-        console.error('IP-Fehler:', e);
-        infoEl.insertAdjacentHTML('beforeend', `<p>Deine IP konnte nicht geladen werden.</p>`);
+        console.error('Fehler beim Laden der Geo-IP:', e);
+        ipEl.textContent = 'konnte nicht geladen werden';
+        locationEl.textContent = 'konnte nicht geladen werden';
+        coordsEl.textContent = '';
       }
     })();
-  </script>
-
-
-  <div class="footer">
-    <div class="clock" id="clock">00:00:00</div>
-    <div id="date"></div>
-  </div>
-
-  <script>
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-    }
-    function updateDate() {
-      const now = new Date();
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('date').textContent = now.toLocaleDateString('de-DE', options);
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-    updateDate();
   </script>
 
 </body>
