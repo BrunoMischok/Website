@@ -180,7 +180,7 @@
     }
 
 (async () => {
-    log("net: bringing up interface eth0 ...");                  await sleep(700);
+    log("net: bringing up interface eth0 ...");                  await sleep(300);
 
     // kleiner Timeout-Helper
     const withTimeout = (p, ms, label) => Promise.race([
@@ -197,7 +197,7 @@
         }), 6000, 'ipify');
         if (!r1.ok) throw new Error('ipify HTTP ' + r1.status);
         ({ ip } = await r1.json());
-        log(`net: assigned IP address ${ip}`);                    await sleep(600);
+        log(`net: assigned IP address ${ip}`);                    await sleep(100);
       } catch (e) {
         log("net: primary IP service failed, trying fallback", "warn"); await sleep(400);
         const r2 = await withTimeout(fetch('https://ipapi.co/json/', { cache: 'no-store' }), 7000, 'ipapi');
@@ -209,9 +209,9 @@
         log(`net: assigned IP address ${ip}`);                    await sleep(600);
         const loc2 = [postal, city, region, country].filter(Boolean).join(', ') || 'unavailable';
         log(`geo: resolved location -> ${city || 'unknown'}, ${country || ''}`); await sleep(600);
-        log(`addr: ${loc2}`);                                     await sleep(500);
-        log("services: all systems operational.");                await sleep(400);
-        log("security: remember to stay safe ;)");                await sleep(400);
+        log(`addr: ${loc2}`);                                     await sleep(200);
+        log("services: all systems operational.");                await sleep(300);
+        log("security: remember to stay safe ;)");                await sleep(300);
         return; // wir sind fertig (Fallback-Weg)
       }
 
@@ -225,13 +225,13 @@
 
         log(`geo: resolved location -> ${city || 'unknown'}, ${country || ''}`); await sleep(600);
         const loc = [postal, city, region, country].filter(Boolean).join(', ') || 'unavailable';
-        log(`addr: ${loc}`);                                       await sleep(500);
+        log(`addr: ${loc}`);                                       await sleep(300);
       } catch (e) {
-        log("geo: failed to resolve location", "warn");            await sleep(300);
+        log("geo: failed to resolve location", "warn");            await sleep(100);
       }
 
-      log("services: all systems operational.");                  await sleep(400);
-      log("security: remember to stay safe ;)");                  await sleep(400);
+      log("services: all systems operational.");                  await sleep(200);
+      log("security: remember to stay safe ;)");                  await sleep(200);
 
     } catch (e) {
       log("net: failed to obtain IP/location (offline mode)", "warn");
