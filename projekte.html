@@ -1,255 +1,206 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brunos Website</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GiggLinuX — Seite</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-image: url("Screenshot 2025-11-10 165137.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start; /* oben beginnen */
-      align-items: center;
-      z-index: 10;
-      overflow: auto; /* scrollbar aktivieren */
-      padding-bottom: 60px; /* Platz für die Fußzeile schaffen */
+    :root {
+      --bg: #000;
+      --white: #eaeaea;
+      --gray: #9aa3a1;
+      --green: #7bd389;
     }
 
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      background-color: black;
-      color: white;
-      text-align: center;
-      line-height: 0px;
-      font-size: 16px;
-      z-index: 20;
-      display: flex;
-      justify-content: space-between; /* Elemente gleichmäßig verteilen */
-      align-items: center; /* Vertikale Ausrichtung */
-      padding: 0px; /* Innenabstand */
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      color:var(--white);
+      font-family:"Ubuntu Mono",monospace;
+    }
+    body{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      padding:12px;
+      box-sizing:border-box;
     }
 
-    h1 {
-      font-family: "Ubuntu Mono", monospace;
-      color: red;
-      text-align: center;
-      padding-top: 20px;
+    /* Topbar */
+    .statusbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:8px 12px;
+      background:#080808;
+      border:1px solid rgba(255,255,255,0.04);
+    }
+    .status-left{ color:var(--green); font-weight:700; }
+    .status-right{ color:var(--gray); display:flex; gap:12px; font-size:14px; }
+
+    /* Tabs (Design beibehalten) */
+    .tabs{
+      display:flex;
+      gap:8px;
+      padding:6px 12px;
+      background:#070707;
+      border-top:1px solid rgba(255,255,255,0.02);
+    }
+    .tab{
+      color:var(--green);
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,0.04);
+      text-decoration:none;
+      text-transform:uppercase;
+      font-size:13px;
+      border-radius:10px;
+      transition:background .2s, border-color .2s, transform .12s;
+    }
+    .tab:hover{
+      background:rgba(255,255,255,0.06);
+      border-color:rgba(255,255,255,0.10);
+      transform:translateY(-1px);
     }
 
-    h2 {
-      font-family: "Ubuntu Mono", monospace;
-      color: blue;
-      text-align: center;
-      padding-top: 20px;
-    }
-    
-    h3 {
-      font-family: "Ubuntu Mono", monospace;
-      color: green;
-      text-align: center;
-      padding-top: 20px;
+    /* Inhaltsbereich */
+    main{
+      flex:1 1 auto;
+      border:1px solid rgba(255,255,255,0.04);
+      background:linear-gradient(#000,#050505);
+      padding:16px;
+      border-radius:8px;
+      line-height:1.5;
     }
 
-    p {
-      font-family: "Ubuntu Mono", monospace;
-      text-align: center;
-      font-size: 18px;
-      margin-left: 50px;
-      margin-right: 50px;
+    @media(min-width:1000px){
+      body{ padding:20px 80px; }
     }
-
-
-    /* Stil für die Tabs */
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-      padding: 10px;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-    }
-
-    .tab {
-      margin: 0 15px;
-      padding: 10px 30px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      border-radius: 20px;
-      transition: background-color 0.3s, border 0.3s;
-    }
-
-    .tab:hover {
-      background-color: rgba(255, 255, 255, 0.4);
-      border: 2px solid white;
-    }
-
-    
-    .clock {
-      font-size: 24px;
-      background-color: black; /* Hintergrund für die Uhrzeit */
-      color: white; /* Textfarbe */
-      padding: 10px;
-      border-radius: 5px; /* Abgerundete Ecken */
-      padding-left: 0px;
-      padding-right: 0px;
-    }
-    
-    .date {
-      font-size: 24px;
-      background-color: black; /* Hintergrund für die Uhrzeit */
-      color: white; /* Textfarbe */
-      padding: 10px;
-      border-radius: 5px; /* Abgerundete Ecken */
-      padding-left: 0px;
-      padding-right: 0px;
-     }   
-     
   </style>
 </head>
 <body>
 
-  <h1>Projekte</h1>
+  <!-- Kopf mit Datum/Uhrzeit -->
+  <div class="statusbar">
+    <div class="status-left">Willkommen auf meiner Website</div>
+    <div class="status-right">
+      <div id="date" class="dim"></div>
+      <div id="clock" class="dim"></div>
+    </div>
+  </div>
 
-  <!-- Tabs unter der Überschrift -->
-<div class="tabs">
+  <!-- Reiter -->
+  <div class="tabs">
     <a class="tab" href="index.html">Home</a>
     <a class="tab" href="ueber-mich.html">Über mich</a>
     <a class="tab" href="projekte.html">Projekte</a>
     <a class="tab" href="kontakt.html">Kontakt</a>
-</div>
-
-  <h2>FiSi IHK Projektantrag</h2>
-
-  <h3>Ausgangssituation</h3>
-
-  <p>Bei der Firma XYZ wird zurzeit der Passwort-Tresor KeePass für die Verwaltung und
-Speicherung firmeninterner Passwörter eingesetzt. Diese Lösung ist zwar weit verbreitet,
-erfüllt jedoch nicht mehr die aktuellen Sicherheits- und Unternehmensanforderungen.
-Insbesondere fehlen zentrale Verwaltungsfunktionen, eine klare rollenbasierte
-Rechtevergabe sowie eine benutzerfreundliche Oberfläche, die den Umgang mit
-Passwörtern erleichtert. In der Praxis führt dies dazu, dass Mitarbeiter Passwörter
-weiterhin unsicher speichern oder weitergeben, beispielsweise auf Papier, in Word-
-Dokumenten oder sogar über Kommunikationsplattformen wie Microsoft Teams. Dieses
-Vorgehen stellt ein erhebliches Sicherheitsrisiko dar, da unverschlüsselt abgelegte
-Zugangsdaten leicht kompromittiert werden können und damit nicht nur die ITSicherheit,
-sondern auch die Einhaltung von unternehmensinternen Richtlinien und
-gesetzlichen Vorgaben gefährdet ist.</p>
-
-  <h3>Projektziel</h3>
-
-  <p>Das Ziel dieses Projekts ist die Einrichtung einer Testinstanz eines zentralen Passwort-
-Tresors auf einem internen Server. Mit dieser Lösung soll erreicht werden, dass
-Passwörter verschlüsselt gespeichert werden, dass Benutzer und Administratoren über
-ein rollenbasiertes Rechtesystem verwaltet werden können und dass die Bedienung so
-benutzerfreundlich gestaltet ist, dass eine breite Akzeptanz bei den Mitarbeitern
-entsteht. Im Rahmen der Umsetzung werden rund zehn Benutzer aus der bestehenden
-KeePass-Lösung in das neue System migriert. Dabei werden die vorhandenen
-Passwörter übernommen, sodass die Testbenutzer ihre Arbeitsweise unmittelbar
-erproben können. Die Testinstanz wird dabei parallel zur bestehenden KeePass-
-Umgebung betrieben, um den laufenden Betrieb nicht zu unterbrechen. Ein endgültiger
-Umstieg auf die neue Plattform erfolgt erst zu einem späteren Zeitpunkt in einem
-separaten Projekt, sobald die Testphase erfolgreich abgeschlossen wurde und alle
-Anforderungen erfüllt sind. Der Projekterfolg lässt sich daran messen, dass die
-eingerichtete Testinstanz funktionsfähig in Betrieb genommen wird, dass sich alle zehn
-vorgesehenen Benutzer erfolgreich anmelden können, ihre Passwörter in der neuen
-Plattform nutzen und verwalten, und dass Einladungs- und Benachrichtigungs-E-Mails
-zuverlässig verschickt werden.</p>
-
-  <h3>Umfeldbedingungen</h3>
-
-  <p>Das Projekt wird als internes Teilprojekt bei der Firma XYZ durchgeführt. Die benötigten
-Serverressourcen sowie die Testbenutzer werden durch die interne IT-Abteilung
-bereitgestellt. Konkret wird hierfür ein virtueller Server auf Basis der bestehenden
-vSphere-Umgebung eingerichtet. Der Passwort-Tresor benötigt eine Datenbank,
-beispielsweise auf Basis von MariaDB, in der die Passwörter verschlüsselt gespeichert
-werden, sowie einen Webserver wie nginx, der den Benutzern den Zugriff über eine
-Weboberfläche ermöglicht. Für die Zustellung von Einladungen und Benachrichtigungen
-ist ein SMTP-Server erforderlich, der in die Lösung integriert wird. Zusätzlich ist eine
-funktionierende Zeit-Synchronisation über NTP notwendig. Ebenso werden SSL/TLSZertifikate
-zur Absicherung der Kommunikation über HTTPS benötigt. Schließlich
-spielen Sicherheitsaspekte wie die Konfiguration einer Firewall und die Absicherung der
-Datenbank eine wichtige Rolle, um den Schutz der Testinstanz zu gewährleisten und ein
-realistisches Abbild der späteren Produktivumgebung zu schaffen. Nicht Bestandteil
-des Projekts sind hingegen eine langfristige Betreuung, die Wartung der Lösung im
-laufenden Betrieb sowie die Implementierung einer Backup-Strategie. Diese Themen
-werden erst in einem nachgelagerten, produktiven Projekt betrachtet.</p>
-
-  <h3>Projektphasen / Zeitplanung</h3>
-
-  <p>Informationen: 10 Stunden
-- Anforderungen prüfen (System, Software, Sicherheit und Verfügbarkeit)
-- Nach geeigneter Software suchen
-- Angebote einholen
-- Entscheidungsmatrix erstellen
-- Entscheidungsmatrix präsentieren & Auswahl treffen
-Planung: 6 Stunden
-- Handbuch der gewählten Software lesen
-- Abhängigkeiten recherchieren
-- Sicherheitsrisiken ermitteln
-- Machbarkeit der Software-Implementierung prüfen
-- Datenspeicherort planen
-- Zeitplan für die Durchführung erstellen
-Durchführung: 13 Stunden
-- Datenspeicherort festlegen
-- Server bereitstellen
-- Abhängigkeiten installieren
-- Software installieren
-- Benutzer (ca. 10) anlegen
-- Rechte vergeben
-- Bestehende Passwörter migrieren
-Kontrolle: 11 Stunden
-- Funktionstest & Sicherheitstest durchführen
-- Praxistest mit mehreren Usern
-- Feedback einholen & analysieren
-- Anpassungen auf Basis des Feedbacks durchführen
-- Projektdokumentation erstellen
-40 / 40 Stunden</p>
-
-  <p>Platzhalter--</p>
-
-  <p>Platzhalter--</p>
-
-  <div class="footer">
-    <div class="clock" id="clock">00:00:00</div> <!-- Platz für die Uhrzeit -->
-    <div id="date"></div> <!-- Platz für das aktuelle Datum -->
   </div>
 
+  <!-- Dein Inhalt -->
+  <main>
+     <h2>FiSi IHK Projektantrag</h2>
+
+        <h3>Ausgangssituation</h3>
+        <p>Bei der Firma XYZ wird zurzeit der Passwort-Tresor KeePass für die Verwaltung und
+        Speicherung firmeninterner Passwörter eingesetzt. Diese Lösung ist zwar weit verbreitet,
+        erfüllt jedoch nicht mehr die aktuellen Sicherheits- und Unternehmensanforderungen.
+        Insbesondere fehlen zentrale Verwaltungsfunktionen, eine klare rollenbasierte
+        Rechtevergabe sowie eine benutzerfreundliche Oberfläche, die den Umgang mit
+        Passwörtern erleichtert. In der Praxis führt dies dazu, dass Mitarbeiter Passwörter
+        weiterhin unsicher speichern oder weitergeben, beispielsweise auf Papier, in Word-
+        Dokumenten oder sogar über Kommunikationsplattformen wie Microsoft Teams. Dieses
+        Vorgehen stellt ein erhebliches Sicherheitsrisiko dar, da unverschlüsselt abgelegte
+        Zugangsdaten leicht kompromittiert werden können und damit nicht nur die ITSicherheit,
+        sondern auch die Einhaltung von unternehmensinternen Richtlinien und
+        gesetzlichen Vorgaben gefährdet ist.</p>
+
+        <h3>Projektziel</h3>
+        <p>Das Ziel dieses Projekts ist die Einrichtung einer Testinstanz eines zentralen Passwort-
+        Tresors auf einem internen Server. Mit dieser Lösung soll erreicht werden, dass
+        Passwörter verschlüsselt gespeichert werden, dass Benutzer und Administratoren über
+        ein rollenbasiertes Rechtesystem verwaltet werden können und dass die Bedienung so
+        benutzerfreundlich gestaltet ist, dass eine breite Akzeptanz bei den Mitarbeitern
+        entsteht. Im Rahmen der Umsetzung werden rund zehn Benutzer aus der bestehenden
+        KeePass-Lösung in das neue System migriert. Dabei werden die vorhandenen
+        Passwörter übernommen, sodass die Testbenutzer ihre Arbeitsweise unmittelbar
+        erproben können. Die Testinstanz wird dabei parallel zur bestehenden KeePass-
+        Umgebung betrieben, um den laufenden Betrieb nicht zu unterbrechen. Ein endgültiger
+        Umstieg auf die neue Plattform erfolgt erst zu einem späteren Zeitpunkt in einem
+        separaten Projekt, sobald die Testphase erfolgreich abgeschlossen wurde und alle
+        Anforderungen erfüllt sind. Der Projekterfolg lässt sich daran messen, dass die
+        eingerichtete Testinstanz funktionsfähig in Betrieb genommen wird, dass sich alle zehn
+        vorgesehenen Benutzer erfolgreich anmelden können, ihre Passwörter in der neuen
+        Plattform nutzen und verwalten, und dass Einladungs- und Benachrichtigungs-E-Mails
+        zuverlässig verschickt werden.</p>
+
+        <h3>Umfeldbedingungen</h3>
+        <p>Das Projekt wird als internes Teilprojekt bei der Firma XYZ durchgeführt. Die benötigten
+        Serverressourcen sowie die Testbenutzer werden durch die interne IT-Abteilung
+        bereitgestellt. Konkret wird hierfür ein virtueller Server auf Basis der bestehenden
+        vSphere-Umgebung eingerichtet. Der Passwort-Tresor benötigt eine Datenbank,
+        beispielsweise auf Basis von MariaDB, in der die Passwörter verschlüsselt gespeichert
+        werden, sowie einen Webserver wie nginx, der den Benutzern den Zugriff über eine
+        Weboberfläche ermöglicht. Für die Zustellung von Einladungen und Benachrichtigungen
+        ist ein SMTP-Server erforderlich, der in die Lösung integriert wird. Zusätzlich ist eine
+        funktionierende Zeit-Synchronisation über NTP notwendig. Ebenso werden SSL/TLS-Zertifikate
+        zur Absicherung der Kommunikation über HTTPS benötigt. Schließlich
+        spielen Sicherheitsaspekte wie die Konfiguration einer Firewall und die Absicherung der
+        Datenbank eine wichtige Rolle, um den Schutz der Testinstanz zu gewährleisten und ein
+        realistisches Abbild der späteren Produktivumgebung zu schaffen. Nicht Bestandteil
+        des Projekts sind hingegen eine langfristige Betreuung, die Wartung der Lösung im
+        laufenden Betrieb sowie die Implementierung einer Backup-Strategie. Diese Themen
+        werden erst in einem nachgelagerten, produktiven Projekt betrachtet.</p>
+
+        <h3>Projektphasen / Zeitplanung</h3>
+        <p>Informationen: 10 Stunden
+        - Anforderungen prüfen (System, Software, Sicherheit und Verfügbarkeit)
+        - Nach geeigneter Software suchen
+        - Angebote einholen
+        - Entscheidungsmatrix erstellen
+        - Entscheidungsmatrix präsentieren & Auswahl treffen
+        Planung: 6 Stunden
+        - Handbuch der gewählten Software lesen
+        - Abhängigkeiten recherchieren
+        - Sicherheitsrisiken ermitteln
+        - Machbarkeit der Software-Implementierung prüfen
+        - Datenspeicherort planen
+        - Zeitplan für die Durchführung erstellen
+        Durchführung: 13 Stunden
+        - Datenspeicherort festlegen
+        - Server bereitstellen
+        - Abhängigkeiten installieren
+        - Software installieren
+        - Benutzer (ca. 10) anlegen
+        - Rechte vergeben
+        - Bestehende Passwörter migrieren
+        Kontrolle: 11 Stunden
+        - Funktionstest & Sicherheitstest durchführen
+        - Praxistest mit mehreren Usern
+        - Feedback einholen & analysieren
+        - Anpassungen auf Basis des Feedbacks durchführen
+        - Projektdokumentation erstellen
+        40 / 40 Stunden</p>
+  </main>
+
   <script>
+    // Uhr & Datum oben rechts
     function updateClock() {
-      const now = new Date(); // Aktuelle Uhrzeit abrufen
-      const hours = String(now.getHours()).padStart(2, '0'); // Stunden
-      const minutes = String(now.getMinutes()).padStart(2, '0'); // Minuten
-      const seconds = String(now.getSeconds()).padStart(2, '0'); // Sekunden
-
-      const timeString = `${hours}:${minutes}:${seconds}`; // Uhrzeit formatieren
-      document.getElementById('clock').textContent = timeString; // Uhrzeit im HTML-Element anzeigen
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2,'0');
+      const m = String(now.getMinutes()).padStart(2,'0');
+      const s = String(now.getSeconds()).padStart(2,'0');
+      document.getElementById('clock').textContent = `[${h}:${m}:${s}]`;
     }
-
     function updateDate() {
-      const now = new Date(); // Aktuelles Datum abrufen
-      const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Formatierungsoptionen
-      const dateString = now.toLocaleDateString('de-DE', options); // Datum formatieren
-      document.getElementById('date').textContent = dateString; // Datum im HTML-Element anzeigen
+      const now = new Date();
+      document.getElementById('date').textContent = now.toLocaleDateString('de-DE');
     }
-
-    setInterval(updateClock, 1000); // Uhrzeit jede Sekunde aktualisieren
-    updateClock(); // Uhrzeit beim Laden der Seite anzeigen
-    updateDate(); // Datum beim Laden der Seite anzeigen
+    setInterval(updateClock,1000);
+    updateClock(); updateDate();
   </script>
 
 </body>
 </html>
+
