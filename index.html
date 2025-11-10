@@ -1,122 +1,86 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GiggLinuX — Kernel Mode</title>
+  <title>Gemischt: Kernel-Log + Info</title>
   <style>
-    :root {
-      --bg: #000000;
+    :root{
+      --bg: #000;
       --white: #eaeaea;
-      --gray: #a0a0a0;
-      --green: #00ff00;
-      --red: #ff5555;
-      --yellow: #ffdd00;
-      --blue: #00aaff;
+      --gray: #9aa3a1;
+      --green: #7bd389;
+      --muted-green: #3f7f63;
+      --panel-bg: rgba(0,0,0,0.55);
     }
 
-    html, body {
-      height: 100%;
-      margin: 0;
-      background: var(--bg);
-      color: var(--white);
-      font-family: "Ubuntu Mono", monospace;
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--white);font-family:"Ubuntu Mono",monospace;}
+    body{display:flex;flex-direction:column;gap:12px;padding:12px;box-sizing:border-box;}
+
+    /* Statusbar (Kernel style) */
+    .statusbar{
+      display:flex;justify-content:space-between;align-items:center;padding:8px 12px;
+      background:#080808;border:1px solid rgba(255,255,255,0.04);
+    }
+    .status-left{color:var(--green);font-weight:700;}
+    .status-right{color:var(--gray);display:flex;gap:12px;font-size:14px;}
+
+    /* Tabs (simple) */
+    .tabs{display:flex;gap:8px;padding:6px 12px;background:#070707;border-top:1px solid rgba(255,255,255,0.02);}
+    .tab{color:var(--green);padding:6px 10px;border:1px solid rgba(255,255,255,0.04);text-decoration:none;text-transform:uppercase;font-size:13px;}
+
+    /* Search / Prompt */
+    .searchbar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#050505;border:1px dashed rgba(255,255,255,0.02);}
+    .prompt{color:var(--muted-green);margin-right:6px;}
+
+    /* Main layout: two columns on wide screens, stacked on small */
+    .main {
+      display:flex;flex-direction:column;gap:12px;
+    }
+    @media(min-width:1000px){
+      .main{flex-direction:row;align-items:flex-start;}
     }
 
-    body {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+    /* Kernel console */
+    .console{
+      flex:1 1 60%;background:linear-gradient(#000,#050505);padding:16px;border:1px solid rgba(255,255,255,0.04);
+      font-size:13px;line-height:1.45;white-space:pre-wrap;overflow:auto;min-height:320px;color:var(--white);
     }
+    .ok{color:var(--green);}
+    .warn{color:var(--muted-green);}
+    .err{color:#ff6b6b;}
+    .dim{color:var(--gray);}
 
-    .statusbar {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 12px;
-      border-bottom: 1px solid var(--gray);
-      background: #111;
-      color: var(--green);
+    /* Info panel (styled like original) */
+    .panel{
+      flex:0 0 360px;max-width:380px;background:var(--panel-bg);padding:16px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);
+      color:var(--white);
     }
+    .panel .label{opacity:0.85;font-size:13px;margin-top:8px;}
+    .panel .value{font-weight:700;font-family:"Ubuntu Mono",monospace;font-size:16px;margin-top:4px;}
+    .panel .small{font-size:12px;opacity:0.8;margin-top:8px;}
 
-    .statusbar .left { font-weight: bold; }
-    .statusbar .right { display: flex; gap: 16px; color: var(--gray); }
+    /* Footer style note (hidden by default) */
+    .note{font-size:12px;color:var(--gray);margin-top:10px;}
 
-    .tabs {
-      flex: 0 0 auto;
-      display: flex;
-      gap: 8px;
-      padding: 6px 12px;
-      background: #080808;
-      border-bottom: 1px solid var(--gray);
+    /* small responsive tweaks */
+    @media(max-width:999px){
+      .panel{max-width:100%;}
     }
-    .tab {
-      color: var(--green);
-      text-decoration: none;
-      border: 1px solid var(--gray);
-      padding: 4px 10px;
-      background: #000;
-      text-transform: uppercase;
-    }
-    .tab:hover { background: #0f0f0f; }
-
-    .searchbar {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-bottom: 1px dashed var(--gray);
-      background: #000;
-      color: var(--gray);
-    }
-
-    input[type="text"] {
-      width: 360px;
-      background: #000;
-      color: var(--white);
-      border: 1px solid var(--gray);
-      padding: 6px 8px;
-      outline: none;
-      font-family: "Ubuntu Mono", monospace;
-    }
-
-    button {
-      background: #111;
-      color: var(--green);
-      border: 1px solid var(--gray);
-      padding: 4px 10px;
-      cursor: pointer;
-    }
-
-    .console {
-      flex: 1 1 auto;
-      overflow: auto;
-      padding: 12px;
-      line-height: 1.45;
-      white-space: pre-wrap;
-      font-size: 14px;
-    }
-
-    .ok { color: var(--green); }
-    .warn { color: var(--yellow); }
-    .err { color: var(--red); }
-    .dim { color: var(--gray); }
-
-    .footer, .social-icons, h1, p { display: none; }
   </style>
 </head>
 <body>
 
+  <!-- Status -->
   <div class="statusbar">
-    <div class="left">Willkommen auf meiner Website</div>
-    <div class="right">
-      <span id="date"></span>
-      <span id="clock"></span>
+    <div class="status-left">Willkommen auf meiner Website</div>
+    <div class="status-right">
+      <div id="date" class="dim"></div>
+      <div id="clock" class="dim"></div>
     </div>
   </div>
 
+  <!-- Tabs -->
   <div class="tabs">
     <a class="tab" href="index.html">Home</a>
     <a class="tab" href="ueber-mich.html">Über mich</a>
@@ -124,118 +88,192 @@
     <a class="tab" href="kontakt.html">Kontakt</a>
   </div>
 
+  <!-- Search / Prompt -->
   <div class="searchbar">
-    <span class="dim">chuck@norris:~#</span>
-    <form action="https://www.google.com/search" method="get">
-      <input type="text" name="q" placeholder="SELECT * FROM users WHERE 'x'='x' --">
-      <button type="submit">run</button>
+    <div class="prompt">chuck@norris:~#</div>
+    <form action="https://www.google.com/search" method="get" style="display:flex;gap:8px;align-items:center;">
+      <input type="text" name="q" placeholder="SELECT * FROM users WHERE 'x'='x' --" style="background:#000;color:var(--white);border:1px solid rgba(255,255,255,0.05);padding:6px 8px;font-family:inherit;font-size:14px;">
+      <button type="submit" style="background:#0a0a0a;color:var(--green);border:1px solid rgba(255,255,255,0.05);padding:6px 10px;cursor:pointer;">run</button>
     </form>
   </div>
 
-  <div class="console" id="info"></div>
+  <!-- Main: console + info panel -->
+  <div class="main">
+    <div class="console" id="console">
+      <!-- Kernel-style logs will be appended here -->
+    </div>
+
+    <div class="panel" id="infoPanel">
+      <div class="label">Browser / Betriebssystem</div>
+      <div id="ua" class="value">Wird ermittelt…</div>
+
+      <div class="label">IP-Adresse</div>
+      <div id="ip" class="value">Wird geladen…</div>
+
+      <div class="label">Vermuteter Ort</div>
+      <div id="location" class="value">Wird geladen…</div>
+
+      <div id="coords" class="small"></div>
+      <div class="small note">
+        Hinweis: IP &amp; Standort werden live von externen Diensten abgefragt. Wenn die Seite öffentlich ist, Datenschutzerklärung beachten.
+      </div>
+    </div>
+  </div>
 
   <script>
     // Datum / Uhrzeit
     function updateClock() {
       const now = new Date();
-      document.getElementById('clock').textContent =
-        `[${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}]`;
+      document.getElementById('clock').textContent = `[${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}]`;
     }
     function updateDate() {
       const now = new Date();
       document.getElementById('date').textContent = now.toLocaleDateString('de-DE');
     }
-    setInterval(updateClock, 1000);
+    setInterval(updateClock,1000);
     updateClock(); updateDate();
 
-    // Logging
+    // Kernel log helpers
+    const consoleEl = document.getElementById('console');
     const bootStart = performance.now();
     function ts() {
       const ms = (performance.now() - bootStart) / 1000;
-      return `[ ${ms.toFixed(6).padStart(10, ' ')}]`;
+      return `[ ${ms.toFixed(6).padStart(10,' ')}]`;
     }
-    function log(line, cls="ok") {
-      const info = document.getElementById("info");
-      info.insertAdjacentHTML("beforeend", `${ts()} <span class="${cls}">${line}</span>\n`);
-      info.scrollTop = info.scrollHeight;
+    function clog(line, cls='ok') {
+      const html = `${ts()} <span class="${cls}">${escapeHtml(line)}</span>\n`;
+      consoleEl.insertAdjacentHTML('beforeend', html);
+      consoleEl.scrollTop = consoleEl.scrollHeight;
     }
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    function escapeHtml(s){
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+    const sleep = ms => new Promise(r=>setTimeout(r,ms));
 
-    // User Agent Parser
-    function parseUA() {
-      const ua = navigator.userAgent;
-      const browser =
-        ua.includes("Firefox") ? "Firefox" :
-        ua.includes("Edg/") ? "Edge" :
-        ua.includes("Chrome") ? "Chrome" :
-        ua.includes("Safari") ? "Safari" : "Unbekannt";
+    // parse UA (same as before)
+    function parseUA(){
+      const ua = navigator.userAgent || "";
+      const browser = ua.includes("Firefox") ? "Firefox" :
+                      ua.includes("Edg/") ? "Edge" :
+                      (ua.includes("Chrome") && !ua.includes("Edg/")) ? "Chrome" :
+                      (ua.includes("Safari") && !ua.includes("Chrome")) ? "Safari" : "Unbekannt";
       const version = (ua.match(/(Firefox|Edg|Chrome)\/([\d.]+)/) || [])[2] ||
                       (ua.match(/Version\/([\d.]+).*Safari/) || [])[1] || "";
-      let os = "Unbekannt";
-      if (/Windows NT/.test(ua)) os = "Windows";
-      else if (/Mac OS X/.test(ua)) os = "macOS";
-      else if (/Android/.test(ua)) os = "Android";
-      else if (/iPhone|iPad|iPod/.test(ua)) os = "iOS";
-      return { browser, version, os };
+      let os = "Unbekannt", osversion = "";
+      if (/Windows NT/.test(ua)) { os="Windows"; osversion = (ua.match(/Windows NT ([\d.]+)/)||[])[1] || ""; }
+      else if (/Mac OS X/.test(ua)) { os="macOS"; osversion = (ua.match(/Mac OS X ([\d_]+)/)||[])[1]?.replaceAll("_",".") || ""; }
+      else if (/Android/.test(ua)) { os="Android"; osversion = (ua.match(/Android ([\d.]+)/)||[])[1] || ""; }
+      else if (/iPhone|iPad|iPod/.test(ua)) { os="iOS"; }
+      return { browser, version, os, osversion };
     }
 
-(async () => {
-    log("net: bringing up interface eth0 ...");                  await sleep(300);
+    // Elements for info panel
+    const uaEl = document.getElementById('ua');
+    const ipEl = document.getElementById('ip');
+    const locationEl = document.getElementById('location');
+    const coordsEl = document.getElementById('coords');
 
-    // kleiner Timeout-Helper
-    const withTimeout = (p, ms, label) => Promise.race([
-      p, new Promise((_, rej) => setTimeout(() => rej(new Error(label+" timeout")), ms))
-    ]);
+    // show UA immediately
+    const ui = parseUA();
+    uaEl.textContent = `${ui.browser} ${ui.version} (${ui.os} ${ui.osversion})`;
+    clog(`ui: user-agent -> ${ui.browser} ${ui.version} on ${ui.os} ${ui.osversion}`, 'ok');
 
-    try {
-      let ip, city, country, region, postal;
+    // Robust IP + Geo: ipify primary, ipapi for geo; fallback to ipapi.json
+    (async () => {
+      // simulate longer boot with playful lines
+      clog('Booting GiggLinuX Kernel v2.1 (mixed-mode) ...', 'ok'); await sleep(350);
+      clog('init: starting subsystems: coffee, humor, chaos ...', 'ok'); await sleep(400);
+      clog('userland: whoami -> chucknorris', 'ok'); await sleep(500);
+      clog('tasks: backe käsekuchen', 'ok'); await sleep(450);
+      clog('tasks: putze klo', 'ok'); await sleep(450);
+      clog('net: preparing interface eth0 ...', 'ok'); await sleep(500);
 
-      // 1) Primär: IP von ipify
+      // Helper for timeouts
+      const withTimeout = (p, ms, label) => Promise.race([
+        p, new Promise((_, rej) => setTimeout(() => rej(new Error(label+' timeout')), ms))
+      ]);
+
       try {
-        const r1 = await withTimeout(fetch('https://api.ipify.org?format=json', {
-          cache: 'no-store'
-        }), 6000, 'ipify');
-        if (!r1.ok) throw new Error('ipify HTTP ' + r1.status);
-        ({ ip } = await r1.json());
-        log(`net: assigned IP address ${ip}`);                    await sleep(100);
+        // 1) try ipify for IP
+        let ip;
+        try {
+          const rIpify = await withTimeout(fetch('https://api.ipify.org?format=json', {cache:'no-store'}), 6000, 'ipify');
+          if (!rIpify.ok) throw new Error('ipify HTTP ' + rIpify.status);
+          const j = await rIpify.json();
+          ip = j.ip;
+          clog(`net: assigned address ${ip}`, 'ok');
+        } catch (e) {
+          clog('net: ipify failed, falling back to ipapi', 'warn');
+          // fallback: fetch ipapi's json which includes ip + geo
+          const rIpapi = await withTimeout(fetch('https://ipapi.co/json/', {cache:'no-store'}), 7000, 'ipapi');
+          if (!rIpapi.ok) throw new Error('ipapi HTTP ' + rIpapi.status);
+          const j2 = await rIpapi.json();
+          ip = j2.ip;
+          // write ip now and geo below
+          clog(`net: assigned address ${ip}`, 'ok');
+          // fill panel from j2
+          const city = j2.city || '';
+          const region = j2.region || '';
+          const country = j2.country_name || j2.country || '';
+          const postal = j2.postal || '';
+          const latitude = j2.latitude ?? j2.lat ?? '';
+          const longitude = j2.longitude ?? j2.lon ?? '';
+          const parts = [];
+          if (postal) parts.push(postal);
+          if (city) parts.push(city);
+          if (region && region !== city) parts.push(region);
+          if (country) parts.push(country);
+          const locText = parts.length ? parts.join(', ') : 'Nicht verfügbar';
+          // update info panel
+          ipEl.textContent = ip || 'unbekannt';
+          locationEl.textContent = locText;
+          coordsEl.textContent = (latitude && longitude) ? `Koordinaten: ${latitude}, ${longitude}` : '';
+          clog(`geo: resolved -> ${locText}`, 'ok');
+          clog('services: user-space ready.', 'ok');
+          clog('security: remember to stay safe ;)', 'ok');
+          return; // we're done via fallback
+        }
+
+        // 2) with IP from ipify, ask ipapi for geo about that IP
+        try {
+          const rGeo = await withTimeout(fetch(`https://ipapi.co/${encodeURIComponent(ip)}/json/`, {cache:'no-store'}), 7000, 'ipapi-geo');
+          if (!rGeo.ok) throw new Error('ipapi-geo HTTP ' + rGeo.status);
+          const g = await rGeo.json();
+          const city = g.city || '';
+          const region = g.region || '';
+          const country = g.country_name || g.country || '';
+          const postal = g.postal || '';
+          const latitude = g.latitude ?? g.lat ?? '';
+          const longitude = g.longitude ?? g.lon ?? '';
+          const parts = [];
+          if (postal) parts.push(postal);
+          if (city) parts.push(city);
+          if (region && region !== city) parts.push(region);
+          if (country) parts.push(country);
+          const locText = parts.length ? parts.join(', ') : 'Nicht verfügbar';
+
+          // update panel
+          ipEl.textContent = ip || 'unbekannt';
+          locationEl.textContent = locText;
+          coordsEl.textContent = (latitude && longitude) ? `Koordinaten: ${latitude}, ${longitude}` : '';
+
+          clog(`geo: resolved location -> ${city || 'unknown'}, ${country || ''}`, 'ok'); await sleep(350);
+          clog(`addr: ${locText}`, 'ok'); await sleep(250);
+          clog('services: user-space ready.', 'ok'); await sleep(200);
+          clog('security: remember to stay safe ;)', 'ok');
+        } catch (e) {
+          clog('geo: failed to resolve location (ipapi)', 'warn');
+          // still set ip in panel
+          ipEl.textContent = ip || 'unbekannt';
+          locationEl.textContent = 'Nicht verfügbar';
+          coordsEl.textContent = '';
+        }
       } catch (e) {
-        log("net: primary IP service failed, trying fallback", "warn"); await sleep(400);
-        const r2 = await withTimeout(fetch('https://ipapi.co/json/', { cache: 'no-store' }), 7000, 'ipapi');
-        if (!r2.ok) throw new Error('ipapi HTTP ' + r2.status);
-        const j2 = await r2.json();
-        ip = j2.ip;
-        city = j2.city; country = j2.country_name || j2.country;
-        region = j2.region; postal = j2.postal;
-        log(`net: assigned IP address ${ip}`);                    await sleep(600);
-        const loc2 = [postal, city, region, country].filter(Boolean).join(', ') || 'unavailable';
-        log(`geo: resolved location -> ${city || 'unknown'}, ${country || ''}`); await sleep(600);
-        log(`addr: ${loc2}`);                                     await sleep(200);
-        log("services: all systems operational.");                await sleep(300);
-        log("security: remember to stay safe ;)");                await sleep(300);
-        return; // wir sind fertig (Fallback-Weg)
-      }
-
-      // 2) Geo zu genau dieser IP auflösen
-      try {
-        const r3 = await withTimeout(fetch(`https://ipapi.co/${ip}/json/`, { cache: 'no-store' }), 7000, 'ipapi-geo');
-        if (!r3.ok) throw new Error('ipapi-geo HTTP ' + r3.status);
-        const g = await r3.json();
-        city = g.city; country = g.country_name || g.country;
-        region = g.region; postal = g.postal;
-
-        log(`geo: resolved location -> ${city || 'unknown'}, ${country || ''}`); await sleep(600);
-        const loc = [postal, city, region, country].filter(Boolean).join(', ') || 'unavailable';
-        log(`addr: ${loc}`);                                       await sleep(300);
-      } catch (e) {
-        log("geo: failed to resolve location", "warn");            await sleep(100);
-      }
-
-      log("services: all systems operational.");                  await sleep(200);
-      log("security: remember to stay safe ;)");                  await sleep(200);
-
-    } catch (e) {
-      log("net: failed to obtain IP/location (offline mode)", "warn");
-      console.error(e);
+        clog('net: failed to obtain IP/location (offline)', 'err');
+        ipEl.textContent = 'konnte nicht geladen werden';
+        locationEl.textContent = 'konnte nicht geladen werden';
+        coordsEl.textContent = '';
+        console.error(e);
       }
     })();
   </script>
