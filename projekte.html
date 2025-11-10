@@ -181,19 +181,6 @@
         - Projektdokumentation erstellen
         40 / 40 Stunden</p>
 
-        <!-- === Hacker News (CLI-Style) === -->
-    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:18px 0;">
-    <pre style="margin:0 0 8px 0; white-space:pre; font-family:'Ubuntu Mono', monospace; font-size:15px; line-height:1.25;">
- _   _            _                _  _                             
-| | | | __ _  ___| | _____ _ __   | \| | _____       ______
-| |_| |/ _` |/ __| |/ / _ \ '__|  | .` |/ _ \ \ /\ / /  __/
-|  _  | (_| | (__|   <  __/ |     | |\  |  __/\ V  V / __ \
-|_| |_|\__,_|\___|_|\_\___|_|     |_| \_|\___| \_/\_/ |___/
-    </pre>
-    <div id="hn-log" style="font-family:'Ubuntu Mono', monospace; font-size:14px; line-height:1.45;">
-      Lade Hacker News …
-    </div>
-
   </main>
 
   <script>
@@ -212,80 +199,6 @@
     setInterval(updateClock,1000);
     updateClock(); updateDate();
   </script>
-
-  <script>
-  // --- Hacker News RSS unten als Kernel-Log-Zeilen ---
-  (function(){
-    const LIMIT = 25; // Anzahl Zeilen
-    const FEED  = 'https://news.ycombinator.com/rss';
-    const PROXY = (u)=>'https://api.allorigins.win/raw?url=' + encodeURIComponent(u);
-    const hnEl  = document.getElementById('hn-log');
-
-    function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-    function fmt(pub){
-      const d = new Date(pub);
-      if (isNaN(d.getTime())) return '????-??-?? ??:??';
-      const y = d.getFullYear();
-      const M = String(d.getMonth()+1).padStart(2,'0');
-      const D = String(d.getDate()).padStart(2,'0');
-      const h = String(d.getHours()).padStart(2,'0');
-      const m = String(d.getMinutes()).padStart(2,'0');
-      return `${y}-${M}-${D} ${h}:${m}`;
-    }
-
-    async function fetchRSS(){
-      const attempts = [
-        {name:'direct', url: FEED},
-        {name:'proxy',  url: PROXY(FEED)}
-      ];
-      let lastErr = null;
-      for (const a of attempts){
-        try{
-          const res = await fetch(a.url, { cache:'no-store' });
-          if (!res.ok) throw new Error(`${a.name} HTTP ${res.status}`);
-          return await res.text();
-        }catch(e){ lastErr = e; }
-      }
-      throw lastErr || new Error('Abruf fehlgeschlagen');
-    }
-
-    function parseRSS(xmlText){
-      const doc = new DOMParser().parseFromString(xmlText, 'application/xml');
-      if (doc.querySelector('parsererror')) throw new Error('RSS-Parsing fehlgeschlagen');
-      return [...doc.querySelectorAll('item')].slice(0, LIMIT).map(it=>{
-        const title = it.querySelector('title')?.textContent?.trim() || '(ohne Titel)';
-        const link  = it.querySelector('link')?.textContent?.trim() || '#';
-        const pub   = it.querySelector('pubDate')?.textContent?.trim() || '';
-        return { title, link, pub };
-      });
-    }
-
-    function render(items){
-      if (!items.length) {
-        hnEl.innerHTML = '<span style="color:#ff6b6b">[ FEHLER ] Keine Einträge gefunden.</span>';
-        return;
-      }
-      // Jede Zeile: [ YYYY-MM-DD HH:MM ]  Hacker News: <a href="...">Titel</a>
-      hnEl.innerHTML = items.map(it=>{
-        const ts = fmt(it.pub);
-        const title = esc(it.title);
-        const link = it.link ? it.link : '#';
-        return `[ ${ts} ]  Hacker News: <a href="${link}" target="_blank" rel="noopener noreferrer" style="color:#eaeaea; text-decoration:none;">${title}</a>`;
-      }).join('\n');
-    }
-
-    (async () => {
-      try {
-        const xml = await fetchRSS();
-        const items = parseRSS(xml);
-        render(items);
-      } catch (e) {
-        hnEl.innerHTML = `<span style="color:#ff6b6b">[ FEHLER ] RSS: ${esc(e.message)}</span>\n` +
-                         `Mögliche Ursachen: Adblock/CORS/Offline.`;
-      }
-    })();
-  })();
-</script>
 
 </body>
 </html>
